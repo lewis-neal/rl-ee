@@ -3,11 +3,16 @@ A Python project for comparing the impact of action selection strategies on the 
 
 # TO RUN
 ```
-pipenv shell
+pipenv run python *filename*
 ```
 
 # IF `pipenv` cannot be found
 It may need to be added to your path. Try:
 ```
 source ~/.profile
+```
+
+# For more details on pipenv
+```
+https://packaging.python.org/tutorials/managing-dependencies/
 ```
