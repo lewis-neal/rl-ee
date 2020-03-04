@@ -4,7 +4,7 @@ print(env.observation_space)
 for i_episode in range(20):
     observation = env.reset()
     for t in range(100):
-        #env.render()
+        #env.render() some environments can't be rendered
         print(observation)
         action = env.action_space.sample()
         if action == 1:
