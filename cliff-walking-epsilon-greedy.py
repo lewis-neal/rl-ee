@@ -1,6 +1,6 @@
 import gym
 import numpy as np
-env = gym.make('NChain-v0')
+env = gym.make('CliffWalking-v0')
 
 def select_action(current_state):
     num = np.random.uniform()
@@ -56,6 +56,7 @@ for i_episode in range(episodes):
     print(q_function)
     switch_to_random = True
 
+
 done = False
 cumulative_reward = 0
 
@@ -67,5 +68,6 @@ while not done:
     if done:
         break
 print("Cumulative reward at end = " + str(cumulative_reward))
+
 env.close()
 
