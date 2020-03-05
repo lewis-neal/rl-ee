@@ -22,7 +22,7 @@ def update_counts(state, counts):
 learning_rate = 0.5
 discount_factor = 0.9
 episodes = 2
-beta = 0.5
+beta = 0.05
 steps = 1000000
 switch_to_random = False
 
@@ -35,7 +35,6 @@ for i_episode in range(episodes):
     counts = update_counts(current_state, counts)
     cumulative_reward = 0
     for t in range(steps):
-        #env.render() some environments can't be rendered
         action = select_action(current_state, beta)
         next_state, reward, done, info = env.step(action)
         update_q_function(current_state, next_state, action, reward)
@@ -48,12 +47,11 @@ for i_episode in range(episodes):
     print("Cumulative reward at end = " + str(cumulative_reward))
     print(q_function)
     print(counts)
-    switch_to_random = True
 
 done = False
 cumulative_reward = 0
 
-while not done:
+for i in range(1000):
     action = np.argmax(q_function[current_state,:])
     next_state, reward, done, info = env.step(action)
     current_state = next_state

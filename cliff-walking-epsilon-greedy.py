@@ -49,7 +49,7 @@ for i_episode in range(episodes):
         update_q_function(current_state, next_state, action, reward)
         current_state = next_state
         cumulative_reward += reward
-        if t % (steps / 20) == 0:
+        if t % (steps / 10) == 0:
             print("Cumulative reward so far = " + str(cumulative_reward))
     print("Episode finished after {} timesteps".format(t+1))
     print("Cumulative reward at end = " + str(cumulative_reward))
@@ -60,7 +60,7 @@ for i_episode in range(episodes):
 done = False
 cumulative_reward = 0
 
-while not done:
+for i in range(steps):
     action = np.argmax(q_function[current_state,:])
     next_state, reward, done, info = env.step(action)
     current_state = next_state
