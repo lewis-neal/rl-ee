@@ -16,3 +16,6 @@ source ~/.profile
 ```
 https://packaging.python.org/tutorials/managing-dependencies/
 ```
+
+# IMPORTANT
+Create a data directory in the root for the logs to go in or things won't run
