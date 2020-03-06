@@ -11,9 +11,6 @@ def select_action(current_state):
     return env.action_space.sample()
 
 def update_epsilon():
-    global switch_to_random
-    if switch_to_random:
-        return
     global epsilon
     epsilon *= epsilon_discount_factor
 
@@ -65,3 +62,4 @@ print("Episode finished after {} timesteps".format(i+1))
 print("Cumulative reward at end = " + str(cumulative_reward))
 env.close()
 
+np.savetxt('n-chain-epsilon-greedy-01.txt', q_function, delimiter=',')
