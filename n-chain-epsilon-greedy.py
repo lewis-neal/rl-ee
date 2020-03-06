@@ -1,4 +1,4 @@
-import gym
+import gym, datetime
 import numpy as np
 from epsilon_greedy import EpsilonGreedy
 env = gym.make('NChain-v0')
@@ -20,6 +20,7 @@ steps = 1000000
 epsilon_greedy = EpsilonGreedy(epsilon, epsilon_discount_factor)
 
 cumulative_reward = 0
+logs = []
 
 for i_episode in range(episodes):
     q_function = reset_q_function()
@@ -34,6 +35,7 @@ for i_episode in range(episodes):
         cumulative_reward += reward
         if t % (steps / 20) == 0:
             print("Cumulative reward so far = " + str(cumulative_reward))
+        logs.append([i_episode, t, reward, cumulative_reward])
     print("Episode finished after {} timesteps".format(t+1))
     print("Cumulative reward at end = " + str(cumulative_reward))
     print(q_function)
@@ -51,3 +53,7 @@ print("Cumulative reward at end = " + str(cumulative_reward))
 env.close()
 
 np.savetxt('data/n-chain-epsilon-greedy-01.txt', q_function, delimiter=',')
+
+# data is logged in the format: episode, step, reward, cumulative reward
+np.savetxt('data/n-chain-epsilon-greedy-' + datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.txt', logs, delimiter=',')
+
