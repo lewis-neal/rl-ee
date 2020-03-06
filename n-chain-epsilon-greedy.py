@@ -1,18 +1,7 @@
 import gym
 import numpy as np
+from epsilon_greedy import EpsilonGreedy
 env = gym.make('NChain-v0')
-
-def select_action(current_state):
-    num = np.random.uniform()
-    if num > epsilon:
-        update_epsilon()
-        return np.argmax(q_function[current_state,:])
-    update_epsilon()
-    return env.action_space.sample()
-
-def update_epsilon():
-    global epsilon
-    epsilon *= epsilon_discount_factor
 
 def update_q_function(current_state, next_state, action, reward):
     q_function[current_state, action] = q_function[current_state, action] + learning_rate * (reward + discount_factor * np.max(q_function[next_state, :]) - q_function[current_state, action])
@@ -20,26 +9,25 @@ def update_q_function(current_state, next_state, action, reward):
 def reset_q_function():
     return np.zeros([env.observation_space.n, env.action_space.n])
 
-def reset_epsilon():
-    return 1
-
 # Parameters
 learning_rate = 0.1
 discount_factor = 0.9
 episodes = 1
-epsilon = reset_epsilon() 
+epsilon = 1
 epsilon_discount_factor = 0.9999
 steps = 1000000
+
+epsilon_greedy = EpsilonGreedy(epsilon, epsilon_discount_factor)
 
 cumulative_reward = 0
 
 for i_episode in range(episodes):
     q_function = reset_q_function()
-    epsilon = reset_epsilon()
+    epsilon_greedy.reset()
     current_state = env.reset()
     cumulative_reward = 0
     for t in range(steps):
-        action = select_action(current_state)
+        action = epsilon_greedy.select_action(current_state, q_function, env)
         next_state, reward, done, info = env.step(action)
         update_q_function(current_state, next_state, action, reward)
         current_state = next_state
@@ -62,4 +50,4 @@ print("Episode finished after {} timesteps".format(i+1))
 print("Cumulative reward at end = " + str(cumulative_reward))
 env.close()
 
-np.savetxt('n-chain-epsilon-greedy-01.txt', q_function, delimiter=',')
+np.savetxt('data/n-chain-epsilon-greedy-01.txt', q_function, delimiter=',')
