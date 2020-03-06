@@ -27,13 +27,12 @@ def reset_epsilon():
     return 1
 
 # Parameters
-learning_rate = 0.5
+learning_rate = 0.1
 discount_factor = 0.9
-episodes = 2
+episodes = 1
 epsilon = reset_epsilon() 
 epsilon_discount_factor = 0.9999
 steps = 1000000
-switch_to_random = False
 
 cumulative_reward = 0
 
@@ -43,7 +42,6 @@ for i_episode in range(episodes):
     current_state = env.reset()
     cumulative_reward = 0
     for t in range(steps):
-        #env.render() some environments can't be rendered
         action = select_action(current_state)
         next_state, reward, done, info = env.step(action)
         update_q_function(current_state, next_state, action, reward)
@@ -54,18 +52,16 @@ for i_episode in range(episodes):
     print("Episode finished after {} timesteps".format(t+1))
     print("Cumulative reward at end = " + str(cumulative_reward))
     print(q_function)
-    switch_to_random = True
 
-done = False
 cumulative_reward = 0
+current_state = env.reset()
 
-while not done:
+for i in range(10000):
     action = np.argmax(q_function[current_state,:])
     next_state, reward, done, info = env.step(action)
     current_state = next_state
     cumulative_reward += reward
-    if done:
-        break
+print("Episode finished after {} timesteps".format(i+1))
 print("Cumulative reward at end = " + str(cumulative_reward))
 env.close()
 
