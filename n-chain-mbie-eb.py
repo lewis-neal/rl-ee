@@ -1,18 +1,21 @@
 import gym, datetime
 import numpy as np
 from mbie_eb import MBIE_EB
+from logger import Logger
 env = gym.make('NChain-v0')
 
 # Parameters
 learning_rate = 0.1
 discount_factor = 0.9
-episodes = 2000
+episodes = 5000
 beta = 0.05
 steps = 1000
 
 log_dir = 'data/n-chain'
-filepath = log_dir + 'n-chain-mbie-eb'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+filepath = '/n-chain-mbie-eb' + date_string
+
+logger = Logger(episodes, log_dir, filepath)
 
 def update_q_function(current_state, next_state, action, reward):
     q_function[current_state, action] = q_function[current_state, action] + learning_rate * (reward + discount_factor * np.max(q_function[next_state, :]) - q_function[current_state, action])
@@ -23,8 +26,8 @@ def reset_q_function():
 action_selector = MBIE_EB(beta, env.observation_space.n, env.action_space.n, discount_factor)
 
 cumulative_reward = 0
-logs = []
 q_function = reset_q_function()
+
 
 for i_episode in range(episodes):
     current_state = env.reset()
@@ -35,7 +38,7 @@ for i_episode in range(episodes):
         update_q_function(current_state, next_state, action, reward)
         current_state = next_state
         cumulative_reward += reward
-        logs.append([i_episode, t, reward, cumulative_reward])
+    logger.log(i_episode, cumulative_reward)
 
 cumulative_reward = 0
 current_state = env.reset()
@@ -49,8 +52,6 @@ print("Episode finished after {} timesteps".format(i+1))
 print("Cumulative reward at end = " + str(cumulative_reward))
 env.close()
 
-np.savetxt(filepath + '-q-function-' + date_string, q_function, delimiter=',')
+np.savetxt(log_dir + filepath + '-q-function-', q_function, delimiter=',')
 
-# data is logged in the format: episode, step, reward, cumulative reward
-np.savetxt(filepath + date_string, logs, delimiter=',')
-
+logger.write()

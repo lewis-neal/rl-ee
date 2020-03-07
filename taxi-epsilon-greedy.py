@@ -1,6 +1,7 @@
 import gym, datetime
 import numpy as np
 from epsilon_greedy import EpsilonGreedy
+from logger import Logger
 env = gym.make('Taxi-v3')
 
 def update_q_function(current_state, next_state, action, reward):
@@ -12,19 +13,20 @@ def reset_q_function():
 # Parameters
 learning_rate = 0.1
 discount_factor = 0.9
-episodes = 2000
+episodes = 5000
 epsilon = 1
 epsilon_discount_factor = 0.9999
 steps = 1000
 
 log_dir = 'data/taxi'
-filepath = log_dir + '/taxi-epsilon-greedy'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
+filepath = '/taxi-epsilon-greedy' + date_string
+
+logger = Logger(episodes, log_dir, filepath)
 
 epsilon_greedy = EpsilonGreedy(epsilon, epsilon_discount_factor)
 
 cumulative_reward = 0
-logs = []
 q_function = reset_q_function()
 
 for i_episode in range(episodes):
@@ -38,7 +40,7 @@ for i_episode in range(episodes):
         cumulative_reward += reward
         if done:
             break
-        logs.append([i_episode, t, reward, cumulative_reward])
+    logger.log(i_episode, cumulative_reward)
 
 cumulative_reward = 0
 current_state = env.reset()
@@ -56,8 +58,6 @@ print("Episode finished after {} timesteps".format(i+1))
 print("Cumulative reward at end = " + str(cumulative_reward))
 env.close()
 
-np.savetxt(filepath + '-q-function-' + date_string, q_function, delimiter=',')
+np.savetxt(log_dir + filepath + '-q-function', q_function, delimiter=',')
 
-# data is logged in the format: episode, step, reward, cumulative reward
-np.savetxt(filepath + date_string, logs, delimiter=',')
-
+logger.write()
