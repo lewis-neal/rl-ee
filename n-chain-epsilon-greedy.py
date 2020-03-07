@@ -12,10 +12,10 @@ def reset_q_function():
 # Parameters
 learning_rate = 0.1
 discount_factor = 0.9
-episodes = 1
+episodes = 2000
 epsilon = 1
 epsilon_discount_factor = 0.9999
-steps = 1000000
+steps = 1000
 
 epsilon_greedy = EpsilonGreedy(epsilon, epsilon_discount_factor)
 
@@ -24,7 +24,6 @@ logs = []
 
 for i_episode in range(episodes):
     q_function = reset_q_function()
-    epsilon_greedy.reset()
     current_state = env.reset()
     cumulative_reward = 0
     for t in range(steps):
@@ -33,17 +32,12 @@ for i_episode in range(episodes):
         update_q_function(current_state, next_state, action, reward)
         current_state = next_state
         cumulative_reward += reward
-        if t % (steps / 20) == 0:
-            print("Cumulative reward so far = " + str(cumulative_reward))
         logs.append([i_episode, t, reward, cumulative_reward])
-    print("Episode finished after {} timesteps".format(t+1))
-    print("Cumulative reward at end = " + str(cumulative_reward))
-    print(q_function)
 
 cumulative_reward = 0
 current_state = env.reset()
 
-for i in range(10000):
+for i in range(steps):
     action = np.argmax(q_function[current_state,:])
     next_state, reward, done, info = env.step(action)
     current_state = next_state

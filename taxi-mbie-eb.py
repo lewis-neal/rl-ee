@@ -14,13 +14,13 @@ log_dir = 'data/taxi'
 filepath = log_dir + '/taxi-mbie-eb'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
 
-action_selector = MBIE_EB(beta, env.observation_space.n, env.action_space.n, discount_factor)
-
 def update_q_function(current_state, next_state, action, reward):
     q_function[current_state, action] = q_function[current_state, action] + learning_rate * (reward + discount_factor * np.max(q_function[next_state, :]) - q_function[current_state, action])
 
 def reset_q_function():
     return np.zeros([env.observation_space.n, env.action_space.n])
+
+action_selector = MBIE_EB(beta, env.observation_space.n, env.action_space.n, discount_factor)
 
 cumulative_reward = 0
 logs = []
@@ -43,7 +43,7 @@ cumulative_reward = 0
 current_state = env.reset()
 env.render()
 
-for i in range(10000):
+for i in range(steps):
     action = np.argmax(q_function[current_state,:])
     next_state, reward, done, info = env.step(action)
     current_state = next_state
