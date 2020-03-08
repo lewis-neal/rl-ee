@@ -16,7 +16,7 @@ log_dir = 'data/n-chain'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
 filepath = log_dir + '/n-chain-mbie-eb' + date_string
 
-logger = Logger(episodes, filepath, iterations)
+logger = Logger(episodes, iterations)
 
 def update_q_function(current_state, next_state, action, reward):
     q_function[current_state, action] = q_function[current_state, action] + learning_rate * (reward + discount_factor * np.max(q_function[next_state, :]) - q_function[current_state, action])
@@ -30,20 +30,21 @@ episode_reward = 0
 total_reward = 0
 q_function = reset_q_function()
 
-
 for iteration in range(iterations):
     total_reward = 0
-    for i_episode in range(episodes):
+    for episode in range(episodes):
         current_state = env.reset()
         episode_reward = 0
+        episode_length = 0
         for t in range(steps):
             action = action_selector.select_action(current_state, q_function)
             next_state, reward, done, info = env.step(action)
             update_q_function(current_state, next_state, action, reward)
             current_state = next_state
             episode_reward += reward
+            episode_length += 1
         total_reward += episode_reward
-        logger.log(i_episode, episode_reward, total_reward)
+        logger.log(iteration, episode, episode_reward, total_reward, episode_length)
 
 episode_reward = 0
 current_state = env.reset()
@@ -59,4 +60,4 @@ env.close()
 
 np.savetxt(filepath + '-q-function-', q_function, delimiter=',')
 
-logger.write()
+logger.write(filepath)
