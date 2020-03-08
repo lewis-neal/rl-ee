@@ -17,7 +17,7 @@ episodes = 5000
 epsilon = 1
 epsilon_discount_factor = 0.9999
 steps = 1000
-iterations = 3
+iterations = 25
 
 log_dir = 'data/taxi'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
@@ -33,6 +33,8 @@ q_function = reset_q_function()
 
 for iteration in range(iterations):
     total_reward = 0
+    q_function = reset_q_function()
+    epsilon_greedy.reset()
     for episode in range(episodes):
         current_state = env.reset()
         episode_reward = 0
