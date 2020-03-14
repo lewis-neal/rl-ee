@@ -10,21 +10,21 @@ class Boltzmann:
         probabilities = self.__get_action_probabilities(state, q_function)
         self.__update_temperature()
         num = np.random.uniform()
+        prob_total = 0
         for action in probabilities:
-            if num < action[0]:
+            prob_total += action[0]
+            if num < prob_total:
                 return int(action[1])
 
     def __get_action_probabilities(self, state, q_function):
         means, total = self.__get_means(state, q_function)   
         actions = []
-        last = 0
         for value in means:
             action = np.zeros(2)
-            prob = last + (value[0] / total)
+            prob = value[0] / total
             action[0] = prob
             action[1] = value[1]
             actions.append(action)
-            last = prob
         return actions
 
 

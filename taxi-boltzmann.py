@@ -14,12 +14,12 @@ def reset_q_function():
 # Parameters
 learning_rate = 0.1
 discount_factor = 0.9
-episodes = 1000
+episodes = 5000
 epsilon = 1
 epsilon_discount_factor = 0.9999
 steps = 200
 iterations = 1
-temperature = 1000
+temperature = 1000000
 
 log_dir = 'data/taxi'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
@@ -70,7 +70,7 @@ print("Episode finished after {} timesteps".format(i+1))
 print("Cumulative reward at end = " + str(episode_reward))
 env.close()
 
-np.savetxt(filepath + '-q-function', q_function, delimiter=',')
+np.savetxt(filepath + '-q-function.csv', q_function, delimiter=',')
 
-logger.write(filepath)
+logger.write(filepath +' .csv')
 print(q_function)
