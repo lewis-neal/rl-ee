@@ -17,6 +17,8 @@ class Discrete:
     def discretise(self, state):
         total = 0
         for i in range(len(self.__num_states)):
+            if self.__num_states[i] == 0:
+                continue
             states = self.get_states(i, self.__num_states[i])
             disc_state = self.get_state(state[i], states)
             total += (self.__get_factor(i) * disc_state)
