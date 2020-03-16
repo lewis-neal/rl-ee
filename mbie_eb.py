@@ -24,7 +24,7 @@ class MBIE_EB:
     def reset(self):
         self.__counts = np.zeros([self.__state_dim, self.__action_dim])
 
-    def select_action(self, state, q_function):
+    def select_action(self, state, q_function, env):
         action = q_function.get_best_action(state, self.__get_bonuses()) 
         self.__update_count(state, action)
         return action
