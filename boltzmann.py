@@ -31,7 +31,7 @@ class Boltzmann:
 
     def __get_means(self, state, q_function):
         means = []
-        q_values = q_function[state,:]
+        q_values = q_function.get_actions_for_state(state)
         q_values = np.sort(q_values)[::-1]
         total = 0
         pointer = 0

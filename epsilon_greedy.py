@@ -9,7 +9,7 @@ class EpsilonGreedy:
     def select_action(self, current_state, q_function, env):
         if np.random.uniform() > self.__epsilon:
             self.__update_epsilon()
-            return np.argmax(q_function[current_state,:])
+            return q_function.get_best_action(current_state)
         self.__update_epsilon()
         return env.action_space.sample()
 

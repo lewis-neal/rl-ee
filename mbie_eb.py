@@ -25,8 +25,7 @@ class MBIE_EB:
         self.__counts = np.zeros([self.__state_dim, self.__action_dim])
 
     def select_action(self, state, q_function):
-        with_bonuses = np.add(q_function, self.__get_bonuses())
-        action = np.argmax(q_function[state,:]) 
+        action = q_function.get_best_action(state, self.__get_bonuses()) 
         self.__update_count(state, action)
         return action
 
