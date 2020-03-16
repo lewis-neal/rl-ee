@@ -25,7 +25,9 @@ class Discrete:
     def __get_factor(self, i):
         if i == 0:
             return 1
-        return (self.__num_states[i] + 1) * self.__get_factor(i-1)
+        if i == 1:
+            return self.__num_states[0]
+        return (self.__num_states[i-1] + 1) * self.__get_factor(i-1)
 
     def get_state(self, value, state_list):
         low = -9999999999
