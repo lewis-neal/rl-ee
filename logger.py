@@ -16,5 +16,7 @@ class Logger:
         self.__logs[self.__pointer][4] = episode_length
         self.__pointer += 1
 
-    def write(self, file_name):
-        np.savetxt(file_name, self.__logs, delimiter=',')
+    def write(self, file_name, data=[]):
+        if len(data) == 0:
+            data = self.__logs
+        np.savetxt(file_name, data, delimiter=',')

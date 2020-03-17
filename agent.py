@@ -44,5 +44,5 @@ class Agent:
         print("Episode finished after {} timesteps".format(i+1))
         print("Cumulative reward at end = " + str(episode_reward))
         self.__logger.write(filepath)
-
+        self.__logger.write(filepath + '-q-function.csv', self.__q_function.get_q_function())
 
