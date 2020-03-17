@@ -51,6 +51,11 @@ class Discrete:
             return high_ind
         return low_ind
 
+    def get_total_states(self):
+        total = 1
+        for num in self.__num_states:
+            if num == 0:
+                continue
+            total *= num
 
-
-
+        return total

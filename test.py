@@ -23,16 +23,17 @@ num_states = [100, 0, 100, 0]
 log_dir = 'data/cart-pole'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
 filepath = log_dir + '/epsilon-greedy' + date_string
-env = gym.make('Taxi-v3')
+env = gym.make('CartPole-v1')
 # add discrete for non-discrete state spaces
 discrete = Discrete(num_states, env)
 # add action_wrapper for non-discrete action spaces
 action_wrapper = ActionWrapper(2, -2, 9)
+total_states = discrete.get_total_states()
 
-env = EnvWrapper(env)
-q_function = Q(env.observation_space.n, env.action_space.n, learning_rate, discount_factor)
+env = EnvWrapper(env, num_states, discrete)
+q_function = Q(total_states, env.action_space.n, learning_rate, discount_factor)
 action_selector = EpsilonGreedy(epsilon, epsilon_discount_factor)
-#action_selector = MBIE_EB(beta, env.observation_space.n, env.action_space.n, discount_factor)
+#action_selector = MBIE_EB(beta, total_states, env.action_space.n, discount_factor)
 #action_selector = Boltzmann(temperature)
 logger = Logger(episodes, 1)
 
