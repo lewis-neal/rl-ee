@@ -1,9 +1,12 @@
 class Agent:
-    def __init__(self, env, q_function, action_selector, logger):
+    def __init__(self, env, q_function, action_selector, logger, action_wrapper=None):
         self.__env = env
         self.__q_function = q_function
         self.__action_selector = action_selector
         self.__logger = logger
+        self.__discretise = action_wrapper == None
+        if not self.__discretise:
+            self.__action_wrapper = action_wrapper
 
     def train(self, steps, episodes):
         episode_reward = 0
@@ -31,9 +34,10 @@ class Agent:
         current_state = self.__env.reset()
         if render:
             self.__env.render()
-
         for i in range(steps):
             action = self.__q_function.get_best_action(current_state)
+            if not self.__discretise:
+                action = self.__action_wrapper.undiscretise(action)
             next_state, reward, done, info = self.__env.step(action)
             current_state = next_state
             episode_reward += reward
