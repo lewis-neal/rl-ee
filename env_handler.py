@@ -2,6 +2,7 @@ import gym
 from tape_env_wrapper import TapeEnvWrapper
 from discrete_env_wrapper import DiscreteEnvWrapper
 from blackjack_env_wrapper import BlackjackEnvWrapper
+from guess_env_wrapper import GuessEnvWrapper
 
 class EnvHandler:
     def get_env(self, name):
@@ -13,3 +14,6 @@ class EnvHandler:
 
         if name in ['Blackjack-v0']:
             return BlackjackEnvWrapper(gym.make(name))
+
+        if name in ['GuessingGame-v0', 'HotterColder-v0']:
+            return GuessEnvWrapper(gym.make(name))
