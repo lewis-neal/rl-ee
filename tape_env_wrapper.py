@@ -1,7 +1,7 @@
 class TapeEnvWrapper:
     def __init__(self, env):
         self.__env = env
-        self.__factors = self.__get_factors()#[1, 2, 4]
+        self.__factors = self.__get_factors()
 
     def reset(self):
         return self.__env.reset()
