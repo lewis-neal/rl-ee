@@ -3,6 +3,7 @@ from tape_env_wrapper import TapeEnvWrapper
 from discrete_env_wrapper import DiscreteEnvWrapper
 from blackjack_env_wrapper import BlackjackEnvWrapper
 from guess_env_wrapper import GuessEnvWrapper
+from continuous_state_env_wrapper import ContinuousStateEnvWrapper
 
 class EnvHandler:
     def get_env(self, name):
@@ -17,3 +18,12 @@ class EnvHandler:
 
         if name in ['GuessingGame-v0', 'HotterColder-v0']:
             return GuessEnvWrapper(gym.make(name))
+
+        if name in ['MountainCar-v0']:
+            return ContinuousStateEnvWrapper(gym.make(name), [10, 10])
+
+        if name in ['CartPole-v1']:
+            return ContinuousStateEnvWrapper(gym.make(name), [100, 0, 10, 0])
+
+        if name in ['Acrobot-v1']:
+            return ContinuousStateEnvWrapper(gym.make(name), [10, 10, 10, 10, 10, 10])
