@@ -13,7 +13,7 @@ from env_handler import EnvHandler
 # Parameters
 learning_rate = 0.1
 discount_factor = 0.9
-episodes = 5000
+episodes = 100
 epsilon = 1
 epsilon_discount_factor = 0.9999
 steps = 200
@@ -25,7 +25,7 @@ log_dir = 'data/cart-pole'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
 filepath = log_dir + '/epsilon-greedy' + date_string
 env_handler = EnvHandler()
-env = env_handler.get_env('ReversedAddition3-v0')
+env = env_handler.get_env('Taxi-v3')
 # add discrete for non-discrete state spaces
 discrete = Discrete(num_states, env)
 # add action_wrapper for non-discrete action spaces
@@ -42,4 +42,4 @@ agent = Agent(env, q_function, action_selector, logger)
 
 agent.train(steps, episodes)
 
-agent.solve(steps, filepath, True)
+agent.solve(steps, filepath, False)
