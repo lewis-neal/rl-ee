@@ -18,7 +18,7 @@ class EpsilonGreedy:
                 return self.__action_wrapper.undiscretise(action)
             return action
         self.__update_epsilon()
-        return env.action_space.sample()
+        return env.get_random_action()
 
     def __update_epsilon(self):
         self.__epsilon *= self.__epsilon_discount_factor
