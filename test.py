@@ -8,7 +8,7 @@ from logger import Logger
 from env_wrapper import EnvWrapper
 from discrete import Discrete
 from action_space_wrapper import ActionWrapper
-from tape_env_wrapper import TapeEnvWrapper
+from env_handler import EnvHandler
 
 # Parameters
 learning_rate = 0.1
@@ -24,14 +24,14 @@ num_states = [32, 11, 2]
 log_dir = 'data/cart-pole'
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
 filepath = log_dir + '/epsilon-greedy' + date_string
-env = gym.make('Reverse-v0')
+env_handler = EnvHandler()
+env = env_handler.get_env('ReversedAddition3-v0')
 # add discrete for non-discrete state spaces
 discrete = Discrete(num_states, env)
 # add action_wrapper for non-discrete action spaces
 #action_wrapper = ActionWrapper(env.action_space.high[0], env.action_space.low[0], 100)
 total_states = discrete.get_total_states()
 
-env = TapeEnvWrapper(env)
 q_function = Q(env.get_total_states(), env.get_total_actions(), learning_rate, discount_factor)
 action_selector = EpsilonGreedy(epsilon, epsilon_discount_factor)
 #action_selector = MBIE_EB(beta, total_states, env.action_space.n, discount_factor)

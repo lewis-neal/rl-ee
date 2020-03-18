@@ -1,7 +1,7 @@
 class TapeEnvWrapper:
     def __init__(self, env):
         self.__env = env
-        self.__factors = [1, 2, 4]
+        self.__factors = self.__get_factors()#[1, 2, 4]
 
     def reset(self):
         return self.__env.reset()
@@ -41,3 +41,16 @@ class TapeEnvWrapper:
             act[i] = action // self.__factors[i]
             action = action % self.__factors[i]
         return tuple(act)
+
+    def __get_factors(self):
+        factors = []
+        for i in range(len(self.__env.action_space)):
+           factors.append(self.__get_factor(i, self.__env.action_space))
+        return factors
+
+    def __get_factor(self, pos, action_space):
+        if pos == 0:
+            return 1
+        if pos == 1:
+            return action_space[0].n
+        return action_space[pos-1].n * self.__get_factor(pos - 1, action_space)
