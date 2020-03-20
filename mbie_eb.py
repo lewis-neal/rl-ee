@@ -12,8 +12,8 @@ class MBIE_EB:
     def __update_count(self, state, action):
         self.__counts[state, action] += 1
 
-    def __get_bonuses(self):
-        return self.__bonus_func(self.__counts)
+    def __get_bonuses(self, state):
+        return self.__bonus_func(self.__counts[state,:])
 
     def __get_bonus(self, count):
         # as per: An Analysis of Model-Based Interval Estimation for Markov Decision Processes
@@ -25,7 +25,7 @@ class MBIE_EB:
         self.__counts = np.zeros([self.__state_dim, self.__action_dim])
 
     def select_action(self, state, q_function, env):
-        action = q_function.get_best_action(state, self.__get_bonuses()) 
+        action = q_function.get_best_action(state, self.__get_bonuses(state))
         self.__update_count(state, action)
         return action
 

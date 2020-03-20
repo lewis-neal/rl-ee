@@ -16,10 +16,10 @@ class Q:
                 (reward + self.__discount_factor * np.max(self.__q_function[next_state, :]) - self.__q_function[current_state, action])
 
     def get_best_action(self, state, bonuses=[]):
-        temp_q = self.__q_function
+        temp_q = self.__q_function[state,:]
         if len(bonuses) > 0:
             temp_q = np.add(temp_q, bonuses)
-        return np.argmax(temp_q[state,:])
+        return np.argmax(temp_q)
 
     def reset(self):
         self.__q_function = np.zeros([self.__observation_count, self.__action_count])

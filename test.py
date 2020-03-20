@@ -16,7 +16,7 @@ epsilon_discount_factor = 0.9999
 steps = 200
 beta = 0.05
 temperature = 1000000
-env_name = 'GuessingGame-v0'
+env_name = 'Taxi-v3'
 
 log_dir = 'data/' + env_name
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
