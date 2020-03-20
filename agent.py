@@ -27,7 +27,7 @@ class Agent:
                 if done:
                     break
             total_reward += episode_reward
-            self.__logger.log(0, episode, episode_reward, total_reward, episode_length)
+            self.__logger.log(episode, episode_reward, total_reward, episode_length)
 
     def solve(self, steps, filepath, render):
         episode_reward = 0
@@ -36,8 +36,6 @@ class Agent:
             self.__env.render()
         for i in range(steps):
             action = self.__q_function.get_best_action(current_state)
-            if not self.__discretise:
-                action = self.__action_wrapper.undiscretise(action)
             next_state, reward, done, info = self.__env.step(action)
             current_state = next_state
             episode_reward += reward
@@ -47,6 +45,6 @@ class Agent:
                 break
         print("Episode finished after {} timesteps".format(i+1))
         print("Cumulative reward at end = " + str(episode_reward))
-        self.__logger.write(filepath)
+        self.__logger.write(filepath + '.csv')
         self.__logger.write(filepath + '-q-function.csv', self.__q_function.get_q_function())
 
