@@ -7,10 +7,12 @@ episodes = 10000
 steps = 200
 episode_reward = 0
 total_reward = 0
-env_name = 'MountainCar-v0'
+env_name = 'Taxi-v3'
+seed = 101
 
 env_handler = EnvHandler()
 env = env_handler.get_env(env_name)
+env.seed(seed)
 rewards = []
 action_strat = 'mbie-eb'
 log_dir = 'data/' + env_name + '/' + action_strat + '/q_function'
