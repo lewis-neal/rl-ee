@@ -35,3 +35,5 @@ agent = Agent(env, q_function, action_selector, logger)
 agent.train(steps, episodes)
 
 agent.solve(steps, filepath, False)
+
+env.close()
