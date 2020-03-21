@@ -7,7 +7,7 @@ episodes = 10000
 steps = 200
 episode_reward = 0
 total_reward = 0
-env_name = 'Blackjack-v0'
+env_name = 'MountainCar-v0'
 
 env_handler = EnvHandler()
 env = env_handler.get_env(env_name)
@@ -21,10 +21,10 @@ for q in files:
         q_function = np.loadtxt(log_dir + '/' + q, delimiter=',')
     except:
         continue
+    total_reward = 0
     for ep in range(episodes):
         current_state = env.reset()
         episode_reward = 0
-        total_reward = 0
         for i in range(steps):
             action = np.argmax(q_function[current_state,:])
             next_state, reward, done, info = env.step(action)
