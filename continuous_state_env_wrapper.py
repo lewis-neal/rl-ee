@@ -86,3 +86,7 @@ class ContinuousStateEnvWrapper:
         if diff_low > diff_high:
             return high_ind
         return low_ind
+
+    def seed(self, seed=None):
+        self.__env.action_space.seed(seed)
+        return self.__env.seed(seed)

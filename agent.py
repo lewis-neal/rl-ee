@@ -1,12 +1,9 @@
 class Agent:
-    def __init__(self, env, q_function, action_selector, logger, action_wrapper=None):
+    def __init__(self, env, q_function, action_selector, logger):
         self.__env = env
         self.__q_function = q_function
         self.__action_selector = action_selector
         self.__logger = logger
-        self.__discretise = action_wrapper == None
-        if not self.__discretise:
-            self.__action_wrapper = action_wrapper
 
     def train(self, steps, episodes):
         episode_reward = 0
