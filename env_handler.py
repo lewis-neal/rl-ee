@@ -21,13 +21,13 @@ class EnvHandler:
             return GuessEnvWrapper(gym.make(name))
 
         if name in ['MountainCar-v0']:
-            return ContinuousStateEnvWrapper(gym.make(name), [10, 10])
+            return ContinuousStateEnvWrapper(gym.make(name), [36, 28])
 
         if name in ['CartPole-v1']:
-            return ContinuousStateEnvWrapper(gym.make(name), [100, 0, 10, 0])
+            return ContinuousStateEnvWrapper(gym.make(name), [96, 0, 48, 0])
 
         if name in ['Acrobot-v1']:
-            return ContinuousStateEnvWrapper(gym.make(name), [10, 10, 10, 10, 10, 10])
+            return ContinuousStateEnvWrapper(gym.make(name), [10, 10, 10, 10, 25, 57])
 
         if name in ['Pendulum-v0']:
-            return PendulumEnvWrapper(gym.make(name), [10, 10, 10], [10])
+            return PendulumEnvWrapper(gym.make(name), [10, 10, 16], [20])
