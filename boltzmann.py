@@ -2,9 +2,11 @@ import numpy as np
 from math import exp
 
 class Boltzmann:
-    def __init__(self, temperature):
+    def __init__(self, temperature, seed=None):
         self.__temperature = temperature
         self.__original_temp = temperature
+        if not seed == None:
+            np.random.seed(seed)
 
     def select_action(self, state, q_function, env):
         probabilities = self.__get_action_probabilities(state, q_function)
@@ -26,8 +28,6 @@ class Boltzmann:
             action[1] = value[1]
             actions.append(action)
         return actions
-
-
 
     def __get_means(self, state, q_function):
         means = []
