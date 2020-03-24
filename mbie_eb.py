@@ -26,6 +26,7 @@ class MBIE_EB:
 
     def select_action(self, state, q_function, env):
         action = q_function.get_best_action(state, self.__get_bonuses(state))
-        self.__update_count(state, action)
         return action
 
+    def post_update(self, state, action, td_error):
+        self.__update_count(state, action)

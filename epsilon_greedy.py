@@ -10,10 +10,8 @@ class EpsilonGreedy:
 
     def select_action(self, current_state, q_function, env):
         if np.random.uniform() > self.__epsilon:
-            self.__update_epsilon()
             action = q_function.get_best_action(current_state)
             return action
-        self.__update_epsilon()
         return env.get_random_action()
 
     def __update_epsilon(self):
@@ -21,3 +19,6 @@ class EpsilonGreedy:
 
     def reset(self):
         self.__epsilon = self.__original_epsilon
+
+    def post_update(self, state, action, td_error):
+        self.__update_epsilon()

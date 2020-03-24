@@ -7,6 +7,7 @@ from boltzmann import Boltzmann
 from logger import Logger
 from env_handler import EnvHandler
 from ucb_1 import UCB_1
+from controlability import Controlability
 
 # Parameters
 learning_rate = 0.1
@@ -20,6 +21,8 @@ temperature = 1000000
 env_name = 'Taxi-v3'
 seed = 101
 c = 10
+beta_c = 0.5
+omega = 0.5
 
 log_dir = 'data/' + env_name
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
@@ -32,7 +35,8 @@ q_function = Q(env.get_total_states(), env.get_total_actions(), learning_rate, d
 #action_selector = EpsilonGreedy(epsilon, epsilon_discount_factor)
 #action_selector = MBIE_EB(beta, env.get_total_states(), env.get_total_actions(), discount_factor)
 #action_selector = Boltzmann(temperature)
-action_selector = UCB_1(c, env.get_total_states(), env.get_total_actions(), discount_factor)
+#action_selector = UCB_1(c, env.get_total_states(), env.get_total_actions(), discount_factor)
+action_selector = Controlability(beta_c, env.get_total_states(), env.get_total_actions(), discount_factor, learning_rate, omega)
 logger = Logger(episodes)
 
 agent = Agent(env, q_function, action_selector, logger)

@@ -10,7 +10,6 @@ class Boltzmann:
 
     def select_action(self, state, q_function, env):
         probabilities = self.__get_action_probabilities(state, q_function)
-        self.__update_temperature()
         num = np.random.uniform()
         prob_total = 0
         for action in probabilities:
@@ -55,3 +54,6 @@ class Boltzmann:
 
     def reset(self):
        self.__temperature = self.__original_temp 
+
+    def post_update(self, state, action, td_error):
+        self.__update_temperature()

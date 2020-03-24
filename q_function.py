@@ -12,8 +12,9 @@ class Q:
         return self.__q_function
 
     def update_q_function(self, current_state, next_state, action, reward):
-        self.__q_function[current_state, action] = self.__q_function[current_state, action] + self.__learning_rate *\
-                (reward + self.__discount_factor * np.max(self.__q_function[next_state, :]) - self.__q_function[current_state, action])
+        td_error = (reward + self.__discount_factor * np.max(self.__q_function[next_state, :]) - self.__q_function[current_state, action])
+        self.__q_function[current_state, action] = self.__q_function[current_state, action] + (self.__learning_rate * td_error)
+        return td_error
 
     def get_best_action(self, state, bonuses=[]):
         temp_q = self.__q_function[state,:]

@@ -17,7 +17,8 @@ class Agent:
             for t in range(steps):
                 action = self.__action_selector.select_action(current_state, self.__q_function, self.__env)
                 next_state, reward, done, info = self.__env.step(action)
-                self.__q_function.update_q_function(current_state, next_state, action, reward)
+                td_error = self.__q_function.update_q_function(current_state, next_state, action, reward)
+                self.__action_selector.post_update(current_state, action, td_error)
                 current_state = next_state
                 episode_reward += reward
                 episode_length += 1

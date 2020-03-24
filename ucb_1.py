@@ -30,3 +30,5 @@ class UCB_1:
         self.__update_count(state, action)
         return action
 
+    def post_update(self, state, action, td_error):
+        self.__update_count(state, action)
