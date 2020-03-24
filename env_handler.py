@@ -1,10 +1,10 @@
 import gym
-from tape_env_wrapper import TapeEnvWrapper
-from discrete_env_wrapper import DiscreteEnvWrapper
-from blackjack_env_wrapper import BlackjackEnvWrapper
-from guess_env_wrapper import GuessEnvWrapper
-from continuous_state_env_wrapper import ContinuousStateEnvWrapper
-from pendulum_env_wrapper import PendulumEnvWrapper
+from envs.tape_env_wrapper import TapeEnvWrapper
+from envs.discrete_env_wrapper import DiscreteEnvWrapper
+from envs.blackjack_env_wrapper import BlackjackEnvWrapper
+from envs.guess_env_wrapper import GuessEnvWrapper
+from envs.continuous_state_env_wrapper import ContinuousStateEnvWrapper
+from envs.pendulum_env_wrapper import PendulumEnvWrapper
 
 class EnvHandler:
     def get_env(self, name):
