@@ -1,11 +1,11 @@
 import numpy as np
 from env_handler import EnvHandler
 from q_function import Q
-from mbie_eb import MBIE_EB
 from agent import Agent
 from logger import Logger
-from epsilon_greedy import EpsilonGreedy
-from boltzmann import Boltzmann
+from action_selectors.mbie_eb import MBIE_EB
+from action_selectors.epsilon_greedy import EpsilonGreedy
+from action_selectors.boltzmann import Boltzmann
 
 env_handler = EnvHandler()
 

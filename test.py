@@ -1,14 +1,14 @@
 import gym, datetime
 from agent import Agent
 from q_function import Q
-from epsilon_greedy import EpsilonGreedy
-from mbie_eb import MBIE_EB
-from boltzmann import Boltzmann
 from logger import Logger
 from env_handler import EnvHandler
-from ucb_1 import UCB_1
-from controlability import Controlability
-from vdbe import VDBE
+from action_selectors.epsilon_greedy import EpsilonGreedy
+from action_selectors.mbie_eb import MBIE_EB
+from action_selectors.boltzmann import Boltzmann
+from action_selectors.ucb_1 import UCB_1
+from action_selectors.controlability import Controlability
+from action_selectors.vdbe import VDBE
 
 # Parameters
 learning_rate = 0.1
