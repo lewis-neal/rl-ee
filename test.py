@@ -8,6 +8,7 @@ from logger import Logger
 from env_handler import EnvHandler
 from ucb_1 import UCB_1
 from controlability import Controlability
+from vdbe import VDBE
 
 # Parameters
 learning_rate = 0.1
@@ -23,6 +24,8 @@ seed = 101
 c = 10
 beta_c = 0.5
 omega = 0.5
+inv_sens = 1 / 6
+vdbe_temp = 0.33
 
 log_dir = 'data/' + env_name
 date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
@@ -36,7 +39,8 @@ q_function = Q(env.get_total_states(), env.get_total_actions(), learning_rate, d
 #action_selector = MBIE_EB(beta, env.get_total_states(), env.get_total_actions(), discount_factor)
 #action_selector = Boltzmann(temperature)
 #action_selector = UCB_1(c, env.get_total_states(), env.get_total_actions(), discount_factor)
-action_selector = Controlability(beta_c, env.get_total_states(), env.get_total_actions(), discount_factor, learning_rate, omega)
+#action_selector = Controlability(beta_c, env.get_total_states(), env.get_total_actions(), discount_factor, learning_rate, omega)
+action_selector = VDBE(env.get_total_states(), vdbe_temp, inv_sens, learning_rate)
 logger = Logger(episodes)
 
 agent = Agent(env, q_function, action_selector, logger)
