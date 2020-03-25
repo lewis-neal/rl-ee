@@ -2,15 +2,15 @@ import numpy as np
 from math import exp
 
 class VDBE:
-    def __init__(self, state_dim, temperature, inv_sens, learning_rate):
+    def __init__(self, state_dim, delta, inv_sens, learning_rate):
         self.__state_dim = state_dim
-        self.__temperature = temperature
+        self.__delta = delta
         self.__inv_sens = inv_sens
         self.__learning_rate = learning_rate
         self.reset()
 
     def __update_epsilon(self, state, td_error):
-        self.__epsilons[state] = (self.__inv_sens * self.__calculate_f(state, td_error)) + ((1 - self.__inv_sens) * self.__epsilons[state])
+        self.__epsilons[state] = (self.__delta * self.__calculate_f(state, td_error)) + ((1 - self.__delta) * self.__epsilons[state])
 
     def __get_epsilon(self, state):
         return self.__epsilons[state]
@@ -29,5 +29,5 @@ class VDBE:
         self.__update_epsilon(state, td_error)
 
     def __calculate_f(self, state, td_error):
-        boltz = (-abs(self.__learning_rate * td_error)) / self.__temperature
+        boltz = (-abs(self.__learning_rate * td_error)) / self.__inv_sens
         return (1 - exp(boltz)) / (1 + exp(boltz))
