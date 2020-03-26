@@ -17,9 +17,11 @@ class UCB_1:
         return self.__bonus_func(self.__counts[state,:], total)
 
     def __get_bonus(self, count, total):
-        # as per: An Analysis of Model-Based Interval Estimation for Markov Decision Processes
+        # as per: Comparing Exploration Strategies for Q-Learning in Random Stochastic Mazes
+        # Must take each action once upon visiting a state before taking any others
+        # so force this by providing a large exploration bonus
         if count == 0:
-            return 1 / (1 - self.__discount_factor)
+            return 99999999
         return self.__c * ((2 * np.log(total) / count) ** 0.5)
 
     def reset(self):
