@@ -5,6 +5,7 @@ class VDBE:
     def __init__(self, state_dim, delta, inv_sens, learning_rate):
         self.__state_dim = state_dim
         self.__delta = delta
+        # inv sens must be > 0
         self.__inv_sens = inv_sens
         self.__learning_rate = learning_rate
         self.reset()
