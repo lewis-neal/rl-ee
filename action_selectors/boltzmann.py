@@ -18,9 +18,9 @@ class Boltzmann:
                 return int(action[1])
 
     def __get_action_probabilities(self, state, q_function):
-        means, total = self.__get_means(state, q_function)   
+        exps, total = self.__get_exps(state, q_function)
         actions = []
-        for value in means:
+        for value in exps:
             action = np.zeros(2)
             prob = value[0] / total
             action[0] = prob
@@ -28,23 +28,23 @@ class Boltzmann:
             actions.append(action)
         return actions
 
-    def __get_means(self, state, q_function):
-        means = []
+    def __get_exps(self, state, q_function):
+        exps = []
         q_values = q_function.get_actions_for_state(state)
         q_values = np.sort(q_values)[::-1]
         total = 0
         pointer = 0
         for value in q_values:
             action = np.zeros(2)
-            mean = self.__get_mean(value)
-            total += mean
-            action[0] = mean
+            exp_val = self.__get_exp(value)
+            total += exp_val
+            action[0] = exp_val
             action[1] = pointer
-            means.append(action)
+            exps.append(action)
             pointer += 1
-        return means, total
+        return exps, total
 
-    def __get_mean(self, q_value):
+    def __get_exp(self, q_value):
         return exp(q_value / self.__temperature)
 
     def __update_temperature(self):
