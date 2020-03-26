@@ -5,7 +5,7 @@ class Agent:
         self.__action_selector = action_selector
         self.__logger = logger
 
-    def train(self, steps, episodes, filepath):
+    def train(self, steps, episodes, filepath, filename):
         episode_reward = 0
         total_reward = 0
         self.__q_function.reset()
@@ -26,8 +26,8 @@ class Agent:
                     break
             total_reward += episode_reward
             self.__logger.log(episode, episode_reward, total_reward, episode_length)
-        self.__logger.write(filepath + '.csv')
-        self.__logger.write(filepath + '-q-function.csv', self.__q_function.get_q_function())
+        self.__logger.write(filepath + '/training-data/' + filename  + '.csv')
+        self.__logger.write(filepath + '/q_function/' + filename + '-q-function.csv', self.__q_function.get_q_function())
 
     def solve(self, steps, render):
         episode_reward = 0
