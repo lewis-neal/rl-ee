@@ -2,6 +2,7 @@ import numpy as np
 
 class Controlability:
     def __init__(self, beta, state_dim, action_dim, learning_rate, omega):
+        # beta must be < 1
         self.__alpha = beta * learning_rate
         self.__state_dim = state_dim
         self.__action_dim = action_dim
