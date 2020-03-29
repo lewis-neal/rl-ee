@@ -15,7 +15,7 @@ env_handler = EnvHandler()
 
 args = sys.argv[1:]
 
-episodes = 100
+episodes = 1
 steps = 200
 learning_rate = 0.1
 discount_factor = 0.9
@@ -51,9 +51,9 @@ for env_name in env_names:
     q_function = Q(env.get_total_states(), env.get_total_actions(), learning_rate, discount_factor)
     log_dir = base_dir + 'data/' + env_name + '/' + action_selector_name
     for val in vals:
-        log_dir += '/' + str(val)
-        os.makedirs(log_dir + '/q_function', exist_ok=True)
-        os.makedirs(log_dir + '/training-data', exist_ok=True)
+        val_dir = log_dir + '/' + str(val)
+        os.makedirs(val_dir + '/q_function', exist_ok=True)
+        os.makedirs(val_dir + '/training-data', exist_ok=True)
         print('EDF =  ' + str(val))
         for seed in seeds:
             print('Seed = ' + str(seed))
@@ -75,5 +75,5 @@ for env_name in env_names:
             logger = Logger(episodes)
             filepath = str(seed)
             agent = Agent(env, q_function, action_selector, logger)
-            agent.train(steps, episodes, log_dir, filepath)
+            agent.train(steps, episodes, val_dir, filepath)
 print('Done')
