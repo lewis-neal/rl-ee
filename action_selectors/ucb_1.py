@@ -1,13 +1,12 @@
 import numpy as np
 
 class UCB_1:
-    def __init__(self, c, state_dim, action_dim, discount_factor):
+    def __init__(self, c, state_dim, action_dim):
         self.__c = c
         self.__state_dim = state_dim
         self.__action_dim = action_dim
         self.reset()
         self.__bonus_func = np.vectorize(self.__get_bonus)
-        self.__discount_factor = discount_factor
 
     def __update_count(self, state, action):
         self.__counts[state, action] += 1

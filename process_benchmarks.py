@@ -91,3 +91,5 @@ for env_name in env_names:
             continue
 
         print('Arbitration required between values: ' + str(maxm))
+        if len(maxm) == 10:
+            print('All results identical')

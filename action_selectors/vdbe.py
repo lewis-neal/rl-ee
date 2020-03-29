@@ -2,13 +2,15 @@ import numpy as np
 from math import exp
 
 class VDBE:
-    def __init__(self, state_dim, delta, inv_sens, learning_rate):
+    def __init__(self, state_dim, delta, inv_sens, learning_rate, seed=None):
         self.__state_dim = state_dim
         self.__delta = delta
         # inv sens must be > 0
         self.__inv_sens = inv_sens
         self.__learning_rate = learning_rate
         self.reset()
+        if not seed == None:
+            np.random.seed(seed)
 
     def __update_epsilon(self, state, td_error):
         self.__epsilons[state] = (self.__delta * self.__calculate_f(state, td_error)) + ((1 - self.__delta) * self.__epsilons[state])
