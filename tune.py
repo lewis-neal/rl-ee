@@ -49,7 +49,7 @@ for env_name in env_names:
     print(env_name)
     env = env_handler.get_env(env_name)
     q_function = Q(env.get_total_states(), env.get_total_actions(), learning_rate, discount_factor)
-    log_dir = 'data/' + env_name + '/' + action_selector_name
+    log_dir = base_dir + 'data/' + env_name + '/' + action_selector_name
     for val in vals:
         log_dir += '/' + str(val)
         os.makedirs(log_dir + '/q_function', exist_ok=True)
@@ -68,7 +68,7 @@ for env_name in env_names:
                 action_selector = VDBE(env.get_total_states(), val, 1 / env.get_total_actions(), learning_rate, seed)
             elif action_selector_name == 'mbie-eb':
                 action_selector = MBIE_EB(val, env.get_total_states(), env.get_total_actions(), discount_factor)
-            else:
+            elif action_selector_name == 'controlability':
                 action_selector = Controlability(val, env.get_total_states(), env.get_total_actions(), learning_rate, omega)
 
             q_function.reset()
