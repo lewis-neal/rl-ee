@@ -5,9 +5,11 @@ env_names = ['Acrobot-v1', 'CartPole-v1', 'MountainCar-v0', 'Pendulum-v0', \
 'Copy-v0', 'DuplicatedInput-v0', 'RepeatCopy-v0', 'Reverse-v0', 'ReversedAddition-v0', 'ReversedAddition3-v0', \
 'Blackjack-v0', 'Roulette-v0', 'FrozenLake-v0', 'FrozenLake8x8-v0', 'NChain-v0', 'Taxi-v3']
 
-action_selectors = ['boltzmann', 'controlability', 'epsilon-greedy', 'mbie-eb', ]
+action_selectors = ['boltzmann', 'controlability', 'epsilon-greedy', 'mbie-eb', 'vdbe', 'ucb-1']
 
 base_dir = 'data/'
+
+#format val, mean, median, max, min, std
 
 def get_maxes(arr):
     maxes = []
@@ -25,6 +27,22 @@ def get_maxes(arr):
             maxes.append(key)
     return maxes
 
+def get_mins(arr):
+    mins = []
+    min_val = None
+    for key in arr:
+        if min_val == None:
+            min_val = arr[key]
+            mins.append(key)
+            continue
+        if arr[key] < min_val:
+            min_val = arr[key]
+            mins = [key]
+            continue
+        if arr[key] == min_val:
+            mins.append(key)
+    return mins
+
 def get_median(arr):
     for key in arr:
         arr[key] = np.median(arr[key])
@@ -41,7 +59,10 @@ for env_name in env_names:
     env_dir = base_dir + env_name + '/'
     for act in action_selectors:
         print(act)
-        benchmark = np.loadtxt(env_dir + act + '/benchmark.csv', delimiter=',')
+        try:
+            benchmark = np.loadtxt(env_dir + act + '/benchmark.csv', delimiter=',')
+        except:
+            continue
         medians = {}
         means = {}
         maximums = {}
@@ -61,11 +82,6 @@ for env_name in env_names:
                 maximums[key] = [row[3]]
                 minimums[key] = [row[4]]
                 stands[key] = [row[5]]
-        medians = get_median(medians)
-        means = get_median(means)
-        maximums = get_median(maximums)
-        minimums = get_median(minimums)
-        stands = get_median(stands)
         maxes = get_maxes(medians)
         if len(maxes) == 1:
             print(maxes)
@@ -75,12 +91,12 @@ for env_name in env_names:
             print(maxes_m)
             continue
 
-        maxes_s = get_maxes(get_values(maxes_m, stands))
-        if len(maxes_s) == 1:
-            print(maxes_s)
+        min_s = get_mins(get_values(maxes_m, stands))
+        if len(min_s) == 1:
+            print(min_s)
             continue
 
-        minm = get_maxes(get_values(maxes_s, minimums))
+        minm = get_maxes(get_values(min_s, minimums))
         if len(minm) == 1:
             print(minm)
             continue
