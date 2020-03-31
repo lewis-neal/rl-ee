@@ -3,10 +3,10 @@ import numpy as np
 from env_handler import EnvHandler
 
 # Parameters
-episodes = 100
+episodes = 10000
 steps = 200
 episode_reward = 0
-seed = 1
+seeds = [1, 2, 3, 4, 5]
 
 args = sys.argv[1:]
 
@@ -36,34 +36,40 @@ elif action_selector_name == 'controlability' or action_selector_name == 'mbie-e
     vals = betas
 
 for env_name in env_names:
+    print(env_name)
     env_dir = base_dir + env_name + '/' + action_selector_name
     data = []
     for val in vals:
+        print(val)
         val_dir = env_dir + '/' + str(val)
         q_dir = val_dir + '/q_function'
         files = os.listdir(q_dir)
         rewards = []
         for q in files:
+            print(q)
             try:
                 q_function = np.loadtxt(q_dir + '/' + q, delimiter=',')
             except:
                 continue
-            env = env_handler.get_env(env_name)
-            env.seed(seed)
-            for ep in range(episodes):
-                current_state = env.reset()
-                episode_reward = 0
-                for i in range(steps):
-                    if env_name == 'Roulette-v0':
-                        action = np.argmax(q_function)
-                    else:
-                        action = np.argmax(q_function[current_state,:])
-                    next_state, reward, done, info = env.step(action)
-                    current_state = next_state
-                    episode_reward += reward
-                    if done:
-                        break
-                rewards.append(episode_reward)
+            print('Loaded')
+            for seed in seeds:
+                print(seed)
+                env = env_handler.get_env(env_name)
+                env.seed(seed)
+                for ep in range(episodes):
+                    current_state = env.reset()
+                    episode_reward = 0
+                    for i in range(steps):
+                        if env_name == 'Roulette-v0':
+                            action = np.argmax(q_function)
+                        else:
+                            action = np.argmax(q_function[current_state,:])
+                        next_state, reward, done, info = env.step(action)
+                        current_state = next_state
+                        episode_reward += reward
+                        if done:
+                            break
+                    rewards.append(episode_reward)
         median = np.median(rewards)
         mean = np.mean(rewards)
         maximum = max(rewards)
