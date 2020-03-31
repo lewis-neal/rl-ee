@@ -20,6 +20,7 @@ steps = 200
 learning_rate = 0.1
 discount_factor = 0.9
 epsilon = 1
+omega = 0.5
 seeds = range(20, 30)
 action_selector_name = args[0]
 base_dir = args[1] + '/data/'
