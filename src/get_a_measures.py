@@ -25,9 +25,9 @@ for env in env_names:
             results_b = np.loadtxt(env_dir + b + '/results.csv', delimiter=',') 
             am = a_measure(results_a[0], results_b[0])
             print(am)
-            measure = [a + ' with ' + b, am]
+            measure = [env, a, b, str(am)]
             measures.append(measure)
         working_list = working_list[1:]
 with open(base_dir + '/measures.csv', 'w', newline='') as myfile:
-    wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-    wr.writerow(measures)
+    wr = csv.writer(myfile)
+    wr.writerows(measures)
