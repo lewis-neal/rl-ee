@@ -1,13 +1,15 @@
 import numpy as np
 from a_measure import a_measure
-import csv
+import csv, sys
+
+args = sys.argv[1:]
 
 env_names = ['Acrobot-v1', 'CartPole-v1', 'MountainCar-v0', 'Pendulum-v0', \
 'Copy-v0', 'DuplicatedInput-v0', 'RepeatCopy-v0', 'Reverse-v0', 'ReversedAddition-v0', 'ReversedAddition3-v0', \
 'Blackjack-v0', 'Roulette-v0', 'FrozenLake-v0', 'FrozenLake8x8-v0', 'NChain-v0', 'Taxi-v3']
 
 action_selection_names = ['boltzmann', 'controlability', 'epsilon-greedy', 'mbie-eb', 'random', 'ucb-1', 'vdbe']
-base_dir = 'data/'
+base_dir = args[0] + 'data/'
 measures = []
 
 for env in env_names:
