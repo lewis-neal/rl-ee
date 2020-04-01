@@ -77,6 +77,8 @@ vals = {
 }
 
 def normalise(value, minimum, maximum):
+    if env == 'MountainCar-v0':
+        return 0
     return (value - minimum) / (maximum - minimum)
 
 for env in env_names:
@@ -88,7 +90,7 @@ for env in env_names:
         data = np.loadtxt(base_dir + env + '/' + a + '/results.csv', delimiter=',')
         new = []
         for row in data:
-            new.append([normalise(row[0], minimum, maximum)])
+            new.append([normalise(row[0], minimum, maximum, env)])
         with open(act_dir + '/normal_reward_results.csv', 'w', newline='') as myfile:
             wr = csv.writer(myfile)
             wr.writerows(new)

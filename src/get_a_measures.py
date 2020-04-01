@@ -21,9 +21,9 @@ for env in env_names:
             print(a + ' with ' + b)
             if a == b:
                 continue
-            results_a = np.loadtxt(env_dir + a + '/results.csv', delimiter=',') 
-            results_b = np.loadtxt(env_dir + b + '/results.csv', delimiter=',') 
-            am = a_measure(results_a[0], results_b[0])
+            results_a = np.loadtxt(env_dir + a + '/normal_reward_results.csv', delimiter=',')
+            results_b = np.loadtxt(env_dir + b + '/normal_reward_results.csv', delimiter=',')
+            am = a_measure(results_a, results_b)
             print(am)
             measure = [env, a, b, str(am)]
             measures.append(measure)
