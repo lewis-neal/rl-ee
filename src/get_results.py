@@ -23,6 +23,7 @@ for env_name in env_names:
     data = []
     q_dir = env_dir + '/final/q_function'
     files = os.listdir(q_dir)
+    results = []
     for q in files:
         print(q)
         try:
@@ -30,7 +31,6 @@ for env_name in env_names:
         except:
             continue
         print('Loaded')
-        results = []
         for seed in seeds:
             print(seed)
             env = env_handler.get_env(env_name)
