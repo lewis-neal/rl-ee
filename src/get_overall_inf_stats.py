@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.stats as ss
+from a_measure import a_measure
 import csv, sys
 
 args = sys.argv[1:]
@@ -10,7 +11,7 @@ env_names = ['Acrobot-v1', 'CartPole-v1', 'MountainCar-v0', 'Pendulum-v0', \
 
 action_selection_names = ['boltzmann', 'controlability', 'epsilon-greedy', 'mbie-eb', 'random', 'ucb-1', 'vdbe']
 base_dir = args[0] + 'data/'
-p_vals = []
+measures = []
 data_file_name = 'normal_reward_results.csv'
 working_list = action_selection_names
 
@@ -25,11 +26,13 @@ for a in action_selection_names:
             env_dir = base_dir + env + '/'
             results_a = np.concatenate((results_a, np.loadtxt(env_dir + a + '/' + data_file_name, delimiter=',')))
             results_b = np.concatenate((results_b, np.loadtxt(env_dir + b + '/' + data_file_name, delimiter=',')))
+        am = a_measure(results_a, results_b)
         stat, p = ss.mannwhitneyu(results_a, results_b, alternative='two-sided')
+        print(am)
         print(p)
-        p_val = [a, b, str(p)]
-        p_vals.append(p_val)
+        measure = [a, b, str(am), str(p)]
+        measures.append(measure)
     working_list = working_list[1:]
-with open(base_dir + '/p_vals.csv', 'w', newline='') as myfile:
+with open(base_dir + '/overall_stats.csv', 'w', newline='') as myfile:
     wr = csv.writer(myfile)
-    wr.writerows(p_vals)
+    wr.writerows(measures)
