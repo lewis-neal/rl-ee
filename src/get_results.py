@@ -3,10 +3,9 @@ import numpy as np
 from env_handler import EnvHandler
 
 # Parameters
-episodes = 10
+episodes = 100
 steps = 200
-episode_reward = 0
-seeds = [1, 2, 3, 4, 5]
+seeds = 1
 
 args = sys.argv[1:]
 
@@ -20,6 +19,8 @@ env_names = ['Acrobot-v1', 'CartPole-v1', 'MountainCar-v0', 'Pendulum-v0', \
 for env_name in env_names:
     print(env_name)
     env_dir = base_dir + env_name + '/' + action_selector_name
+    if action_selector_name == 'random-play':
+        os.makedirs(env_dir, exist_ok=True)
     data = []
     q_dir = env_dir + '/final/q_function'
     files = os.listdir(q_dir)
@@ -31,27 +32,27 @@ for env_name in env_names:
         except:
             continue
         print('Loaded')
-        for seed in seeds:
-            print(seed)
-            env = env_handler.get_env(env_name)
-            env.seed(seed)
-            for ep in range(episodes):
-                current_state = env.reset()
-                episode_reward = 0
-                episode_steps = 0
-                for i in range(steps):
-                    if env_name == 'Roulette-v0':
-                        action = np.argmax(q_function)
-                    else:
-                        action = np.argmax(q_function[current_state,:])
-                    next_state, reward, done, info = env.step(action)
-                    current_state = next_state
-                    episode_reward += reward
-                    episode_steps += 1
-                    if done:
-                        break
-                result = [episode_reward, episode_steps]
-                results.append(result)
+        env = env_handler.get_env(env_name)
+        env.seed(seed)
+        for ep in range(episodes):
+            current_state = env.reset()
+            episode_reward = 0
+            episode_steps = 0
+            for i in range(steps):
+                if action_selector_name == 'random-play':
+                    action = env.get_random_action()
+                elif env_name == 'Roulette-v0':
+                    action = np.argmax(q_function)
+                else:
+                    action = np.argmax(q_function[current_state,:])
+                next_state, reward, done, info = env.step(action)
+                current_state = next_state
+                episode_reward += reward
+                episode_steps += 1
+                if done:
+                    break
+            result = [episode_reward, episode_steps]
+            results.append(result)
     fname = env_dir + '/results.csv'
     np.savetxt(fname, np.array(results), delimiter=',')
 env.close()
