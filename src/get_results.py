@@ -5,7 +5,7 @@ from env_handler import EnvHandler
 # Parameters
 episodes = 100
 steps = 200
-seeds = 1
+seed = 1
 
 args = sys.argv[1:]
 
@@ -19,18 +19,24 @@ env_names = ['Acrobot-v1', 'CartPole-v1', 'MountainCar-v0', 'Pendulum-v0', \
 for env_name in env_names:
     print(env_name)
     env_dir = base_dir + env_name + '/' + action_selector_name
+    q_dir = env_dir + '/final/q_function'
     if action_selector_name == 'random-play':
         os.makedirs(env_dir, exist_ok=True)
+        episodes = 1000
+    else:
+        files = os.listdir(q_dir)
     data = []
-    q_dir = env_dir + '/final/q_function'
-    files = os.listdir(q_dir)
     results = []
+    if action_selector_name == 'random-play':
+        os.makedirs(env_dir, exist_ok=True)
+        files = [1]
     for q in files:
         print(q)
-        try:
-            q_function = np.loadtxt(q_dir + '/' + q, delimiter=',')
-        except:
-            continue
+        if not action_selector_name == 'random-play':
+            try:
+                q_function = np.loadtxt(q_dir + '/' + q, delimiter=',')
+            except:
+                continue
         print('Loaded')
         env = env_handler.get_env(env_name)
         env.seed(seed)
