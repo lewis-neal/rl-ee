@@ -29,6 +29,7 @@ class GuessEnvWrapper:
     def get_total_states(self):
         return self.__env.observation_space.n
 
-    def seed(self, seed=None):
-        self.__env.action_space.seed(seed)
+    def seed(self, seed=None, set_action_seed=True):
+        if set_action_seed:
+            self.__env.action_space.seed(seed)
         return self.__env.seed(seed)

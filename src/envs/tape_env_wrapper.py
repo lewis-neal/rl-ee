@@ -55,6 +55,7 @@ class TapeEnvWrapper:
             return action_space[0].n
         return action_space[pos-1].n * self.__get_factor(pos - 1, action_space)
 
-    def seed(self, seed=None):
-        self.__env.action_space.seed(seed)
+    def seed(self, seed=None, set_action_seed=True):
+        if set_action_seed:
+            self.__env.action_space.seed(seed)
         return self.__env.seed(seed)

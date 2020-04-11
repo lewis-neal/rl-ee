@@ -87,6 +87,7 @@ class ContinuousStateEnvWrapper:
             return high_ind
         return low_ind
 
-    def seed(self, seed=None):
-        self.__env.action_space.seed(seed)
+    def seed(self, seed=None, set_action_seed=True):
+        if set_action_seed:
+            self.__env.action_space.seed(seed)
         return self.__env.seed(seed)

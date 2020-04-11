@@ -112,6 +112,7 @@ class PendulumEnvWrapper:
         step = (high - low) / self.__num_actions[0]
         return [low + (value * step)]
 
-    def seed(self, seed=None):
-        self.__env.action_space.seed(seed)
+    def seed(self, seed=None, set_action_seed=True):
+        if set_action_seed:
+            self.__env.action_space.seed(seed)
         return self.__env.seed(seed)

@@ -22,14 +22,13 @@ for env_name in env_names:
     q_dir = env_dir + '/final/q_function'
     if action_selector_name == 'random-play':
         os.makedirs(env_dir, exist_ok=True)
-        episodes = 1000
     else:
         files = os.listdir(q_dir)
     data = []
     results = []
     if action_selector_name == 'random-play':
         os.makedirs(env_dir, exist_ok=True)
-        files = [1]
+        files = [i for i in range(10)]
     for q in files:
         print(q)
         if not action_selector_name == 'random-play':
@@ -39,7 +38,10 @@ for env_name in env_names:
                 continue
         print('Loaded')
         env = env_handler.get_env(env_name)
-        env.seed(seed)
+        if action_selector_name == 'random-play':
+            env.seed(seed, q == 0)
+        else:
+            env.seed(seed)
         for ep in range(episodes):
             current_state = env.reset()
             episode_reward = 0
