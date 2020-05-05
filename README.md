@@ -18,4 +18,7 @@ https://packaging.python.org/tutorials/managing-dependencies/
 ```
 
 # IMPORTANT
-Create a data directory in the root for the logs to go in or things won't run
+Run the following prior to create the data directory in the root of the project or the scripts will break:
+```
+mkdir data/
+```
