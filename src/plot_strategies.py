@@ -29,14 +29,10 @@ for strat in strats:
         os.makedirs(graph_dir, exist_ok=True)
         temp.reverse()
 
-        #datas = [temp[:len(temp)//2],temp[len(temp)//2:]]
-        #loop = 0
-        #for d in datas:
-        #    loop += 1
         colours = []
         envs = []
         a = []
-        for row in temp:#d:
+        for row in temp:
             envs.append(row[0])
             val = float(row[3])
             a.append(val)
@@ -53,7 +49,15 @@ for strat in strats:
         plt.barh(y_pos, a, align='center', color=colours)
         plt.ylabel('Environment', fontsize=30)
         plt.xlabel('A', fontsize=30)
-        plt.title(strat.capitalize() + ' vs ' + strat2.capitalize(), fontsize=30)
+        if strat == 'random':
+            name = 'Random-Search'
+        else:
+            name = strat.capitalize()
+        if strat2 == 'random':
+            name2 = 'Random-Search'
+        else:
+            name2 = strat2.capitalize()
+        plt.title(name + ' vs ' + name2, fontsize=30)
         plt.yticks(y_pos, envs, fontsize=30)
         plt.xticks(fontsize=30)
         plt.xlim(0, 1)
