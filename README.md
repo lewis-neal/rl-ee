@@ -18,7 +18,7 @@ https://packaging.python.org/tutorials/managing-dependencies/
 ```
 
 # IMPORTANT
-Run the following prior to create the data directory in the root of the project or the scripts will break:
+Run the following prior to running scripts to create the data directory in the root of the project:
 ```
 mkdir data/
 ```
